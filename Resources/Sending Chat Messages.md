@@ -1,0 +1,21 @@
+curl 'https://kick.com/api/v1/chat-messages' \
+  -H 'authority: kick.com' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en' \
+  -H 'authorization: Bearer base64EncodedAuthToken=' \
+  -H 'content-type: application/json' \
+  -H 'cookie: _gcl_au=1.1.1464466226.1678084155; _ga=GA1.1.391164307.1678084156; __stripe_mid=2e1ee0ee-ba1a-4d1d-b2e7-66d49c90dab29e9eae; __stripe_sid=38267eed-12da-400b-b3a5-ec655e75115ad5234a; __cf_bm=c1UL0Joln2PTjJcPSxZPiSHwtnjPVN.C1XcqvVS2Amc-1678173092-0-AZ5bZzI8HEDrX65nTLu+6scGfBHpiJk66yMHUCWx5H8t/0UWWMw26OkY2T3jxo6BaZGvXLLAAVBskWHT7rd7+Wt6xHRoapbao/0GSpVIxoSeAXMwDYpBti97FnodtBstp8aQvkJsXmRvzY/3aD7XHLwJhSWnp/M6ZwX470BTFkRl; _ga_JPX1B65FL2=GS1.1.1678172343.2.1.1678173418.59.0.0; xwitEqL2iQ0xEfLqpAbQ7amzhkdMibcf0FoOebfO=eyJpdiI6ImFIb3h1K3pTQ2k2eEcxTkVUZW5xeGc9PSIsInZhbHVlIjoib0w5TEtkNU9nZ2FibDYxaXNVVzA0TVRsazRmSGhYcTM1dklRNWRaR1gzSktITE05MTZJNEo2NEdUQURXSm9FQzNvaDJTUWdteTVUenMrM2FsM1cwdlpSMlJFUW9YRWpZMjdkYURQRnYvQy9hYUE5TWZBSmdRdldpTEd6Mlk4QUFmSjB4MG9uLzR2aFdPM2NZQmY0UUoxMWJjVlQzSUlxcUhCZi85azVySGZOOUNCbHNHSzJQS0NwOVd0QnZFR3g1NnE2YnhMQmtlbURXYVRtOWNwOGRNaUEyYnNpZVRLNmMzekVXYVp3bXlLZE1Wb2VQRk5VdE1EYkpYMEdTcVRlNnR1SDA1K2ErTXIrOStTL1E4V21RQjBxN0F5dlZPSnRINWQ3U2FOZHcxZHNHZHJPTEY5T3dJSndEQWIwNmZCbFJEbGpwd3MyVFo2akpHWCtxRDZHcXNxSU5lVmVZMjR5ZnNTTlFrRnIyQndITEp2azRZMkdXL0xlTDc5NzdKdGNNbVVMeVJKb3dGWDlLQTZHQmpVSno4eEdHQ0pTRnNVM0crVWcwMnVXVytZeXExWGgrd0tTQUlhS3pHb0tMYUpBT1FMbWhHeEgzNjEzdXpJckY5S2lmejEzdnFrYVBxV0VpbXlJUTV2TU5ERzRFaktDOEpsZzU1dUlIVXFUd2E1eXlzNWJUYThqUWJNbmtaV2ZmWkptS3VsWSt2L2JoR1lYNWlWaGtzejNlbTRlM3JOa1BQUkZGMVVSVWU1V1FKRjg0MUhWY1VoN3ZiVW8xaTZPelZUK0QxS1VtZ2NkRm5vYkJwUFdwa2hKN0JkSVhORmFJTVhseGZNNEpsSGV0RWl3Szc3THJvdG1pTnNaazZtWm12QW5YdDlNVjQvTmdHOU1MKzFZSlhhV0dtdUhVSUhSb01VVHBDRlE2d1VjSnc1SEYiLCJtYWMiOiJjZDY2ODE0NGRhM2U0YjNlNzQyMGRmZDRjNjZkZjgzZjVlYjUzZDdjYWM4NzUyMDhjMjIxOTJmZDdiYmJhOTE5IiwidGFnIjoiIn0%3D; kick_session=eyJpdiI6Ilg1YXl6dzR1UkVWYlBNYURyZDNyM3c9PSIsInZhbHVlIjoiSllUUHBvNFZIT09ib3ZodGltc2lnWnBDSGpBQlF1NjVldjYyNG4zbHNielBBdmtGWkVsTVF5MzhBMDlqWllpcGRKZ2NCT28zYjdIUk1BdkN0S0pCcU1lQ0lVN0hQTVIwLzRhQjZxd3REQzk1bHdIZGNUd3doU2IydkJlL2JUVzYiLCJtYWMiOiJkMWZmMTM3MWI0NjY2YWRhM2RjMzE1ZWE3MDkwZTkxMDQ1NTcyMTFhODYwMmZiZTJiZmIyODA0ZGY3MTA2ZWY1IiwidGFnIjoiIn0%3D; XSRF-TOKEN=base64EncodedAuthToken%3D; _dd_s=rum=0&expire=1678174325954' \
+  -H 'dnt: 1' \
+  -H 'origin: https://kick.com' \
+  -H 'referer: https://kick.com/shmellyorc' \
+  -H 'sec-ch-ua: "Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36' \
+  -H 'x-socket-id: 19781.540310' \
+  -H 'x-xsrf-token: base64EncodedAuthToken=' \
+  --data-raw '{"chatroom_id":979167,"user":{"id":1265182,"username":"zerratar","agreed_to_terms":true,"bio":null,"country":null,"state":null,"city":null,"enable_live_notifications":true,"instagram":null,"twitter":null,"youtube":null,"discord":null,"tiktok":null,"facebook":null,"enable_onscreen_live_notifications":true,"profilepic":null,"is_2fa_setup":false,"redirect":null,"channel_can_be_updated":true,"is_live":false,"roles":[],"streamer_channel":{"id":1223171,"user_id":1265182,"slug":"zerratar","playback_url":"https://fa723fc1b171.us-west-2.playback.live-video.net/api/video/v1/us-west-2.196233775518.channel.GLAMAVreS9NP.m3u8","name_updated_at":null,"vod_enabled":true,"subscription_enabled":false,"can_host":true},"role":null,"verified":false,"profile_thumb":null,"isSuperAdmin":false,"is_subscribed":null,"is_founder":false,"follower_badges":[],"months_subscribed":0,"quantity_gifted":0},"type":null,"message":"how long have you been using kick now?","created_at":1678173425,"id":"temp_1678173425955","reactions":[],"emotes":[]}' \
+  --compressed

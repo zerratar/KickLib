@@ -1,0 +1,6 @@
+src/*/**/bin/Debug/*
+src/*/**/bin/Release/*
+src/*/**/obj/Debug/*
+src/*/**/obj/Release/*
+src/*/**/obj/*
+*.suo
