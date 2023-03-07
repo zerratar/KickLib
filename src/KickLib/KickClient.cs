@@ -9,30 +9,24 @@ using System.Net.WebSockets;
 
 namespace KickLib
 {
-    public class KickClient : IAuthorizer, IAuthorizerAsync, IDisposable
+    public class KickClient : IAuthorizer, IDisposable
     {
         private HttpClientHandler httpClientHandler;
         private HttpClient httpClient;
-
-        private readonly string targetUser;
 
         private readonly CookieContainer reqCookieContainer = new CookieContainer();
         private readonly Dictionary<string, string> reqHeaders = new Dictionary<string, string>();
         private readonly KickChatClient chatClient;
 
-        public TimeSpan? Timeout { get; set; }
-
         public event EventHandler<ChatMessageReceivedEventArgs> ChatMessageReceived;
+        public event EventHandler<ChatMessageDeletedEventArgs> ChatMessageDeleted;
 
-        public KickClient(string targetUser)
+        public KickClient()
         {
             httpClientHandler = new HttpClientHandler() { CookieContainer = reqCookieContainer };
             httpClient = new HttpClient(httpClientHandler);
             httpClient.BaseAddress = new Uri("https://kick.com");
-
             chatClient = new KickChatClient(this);
-
-            this.targetUser = targetUser;
         }
 
         public async Task ConnectAsync(KickChannel channel)
@@ -40,15 +34,14 @@ namespace KickLib
             await chatClient.ConnectAsync(channel);
         }
 
+        public async Task DisconnectAsync(KickChannel channel)
+        {
+            await chatClient.DisconnectAsync(channel);
+        }
+
         public string Authorize(string channelName, string socketId)
         {
             return RequestPusherAuthTokenAsync(channelName, socketId).Result.Auth;
-        }
-
-        public async Task<string> AuthorizeAsync(string channelName, string socketId)
-        {
-            var result = await RequestPusherAuthTokenAsync(channelName, socketId);
-            return result.Auth;
         }
 
         public async Task<PusherAuthTokenResponse> RequestPusherAuthTokenAsync(string channelName, string socketId)
@@ -65,23 +58,31 @@ namespace KickLib
             return Newtonsoft.Json.JsonConvert.DeserializeObject<PusherAuthTokenResponse>(content);
         }
 
-        internal void OnChatMessageReceived(KickChatMessage msg)
+        internal void OnChatMessageReceived(ChatMessage msg)
         {
             var evt = ChatMessageReceived;
-
             if (evt != null)
             {
                 evt.Invoke(this, new ChatMessageReceivedEventArgs(msg));
             }
         }
 
-        public async Task<KickChannel> GetChannelAsync()
+        internal void OnChatMessageDeleted(DeletedChatMessage msg)
+        {
+            var evt = ChatMessageDeleted;
+            if (evt != null)
+            {
+                evt.Invoke(this, new ChatMessageDeletedEventArgs(msg));
+            }
+        }
+
+        public async Task<KickChannel> GetChannelAsync(string targetUser)
         {
             // https://kick.com/api/v1/channels/lospollostv
-            var json = await httpClient.GetStringAsync("/api/v1/channels/" + targetUser);
-            if (string.IsNullOrEmpty(json)) return new KickChannel();
             try
             {
+                var json = await httpClient.GetStringAsync("/api/v1/channels/" + targetUser);
+                if (string.IsNullOrEmpty(json)) return new KickChannel();
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<KickChannel>(json);
             }
             catch
@@ -90,12 +91,12 @@ namespace KickLib
             }
         }
 
-        public async Task<EmoteSource[]> GetEmotesAsync()
+        public async Task<EmoteSource[]> GetEmotesAsync(string targetUser)
         {
-            var emotesJson = await httpClient.GetStringAsync("/emotes/" + targetUser);
-            if (string.IsNullOrEmpty(emotesJson)) return new EmoteSource[0];
             try
             {
+                var emotesJson = await httpClient.GetStringAsync("/emotes/" + targetUser);
+                if (string.IsNullOrEmpty(emotesJson)) return new EmoteSource[0];
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<EmoteSource[]>(emotesJson);
             }
             catch
@@ -109,7 +110,7 @@ namespace KickLib
             //var response = await httpClient.GetAsync("/");
             //var status = response.StatusCode;
             var tss = new TaskCompletionSource<bool>();
-            var targetUrl = "https://kick.com/" + targetUser;
+            var targetUrl = "https://kick.com/";// + targetUser;
 
             using var browserFetcher = new BrowserFetcher();
             await browserFetcher.DownloadAsync();
@@ -164,7 +165,7 @@ namespace KickLib
 
             await tss.Task;
 
-            var echo = await page.EvaluateExpressionAsync<object>("window.Echo");
+            //var echo = await page.EvaluateExpressionAsync<object>("window.Echo");
 
             httpClient.DefaultRequestHeaders.Clear();
             foreach (var header in reqHeaders)
@@ -180,6 +181,5 @@ namespace KickLib
             httpClientHandler.Dispose();
             httpClient.Dispose();
         }
-
     }
 }

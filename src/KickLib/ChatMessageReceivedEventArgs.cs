@@ -4,9 +4,19 @@ namespace KickLib
 {
     public class ChatMessageReceivedEventArgs
     {
-        public readonly KickChatMessage Message;
+        public readonly ChatMessage Message;
 
-        public ChatMessageReceivedEventArgs(KickChatMessage msg)
+        public ChatMessageReceivedEventArgs(ChatMessage msg)
+        {
+            this.Message = msg;
+        }
+    }
+
+    public class ChatMessageDeletedEventArgs
+    {
+        public readonly DeletedChatMessage Message;
+
+        public ChatMessageDeletedEventArgs(DeletedChatMessage msg)
         {
             this.Message = msg;
         }

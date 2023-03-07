@@ -48,8 +48,11 @@ namespace KickLib
         {
             switch (eventName)
             {
+                case "App\\Events\\ChatMessageDeletedEvent":
+                    apiClient.OnChatMessageDeleted(Newtonsoft.Json.JsonConvert.DeserializeObject<DeletedChatMessage>(eventData.Data) ?? new DeletedChatMessage());
+                    return;
                 case "App\\Events\\ChatMessageSentEvent":
-                    apiClient.OnChatMessageReceived(Newtonsoft.Json.JsonConvert.DeserializeObject<KickChatMessage>(eventData.Data) ?? new KickChatMessage());
+                    apiClient.OnChatMessageReceived(Newtonsoft.Json.JsonConvert.DeserializeObject<ChatMessage>(eventData.Data) ?? new ChatMessage());
                     return;
             }
 
@@ -62,17 +65,17 @@ namespace KickLib
 
         private void OnError(object sender, PusherException error)
         {
-            Console.WriteLine("Error from Pusher: " + error);
+            Console.WriteLine("Pusher Error: " + error);
         }
 
         private void OnDisconnected(object sender)
         {
-            Console.WriteLine("Disconnected from Pusher");
+            Console.WriteLine("Disconnected from Kick Pusher");
         }
 
         private void OnConnected(object sender)
         {
-            Console.WriteLine("Connected to Pusher");
+            Console.WriteLine("Connected to Kick Pusher");
         }
 
         public void Dispose()
@@ -80,11 +83,58 @@ namespace KickLib
             pusher.DisconnectAsync();
         }
 
+
+        internal async Task DisconnectAsync()
+        {
+            if (subscribedChannels.Count == 0 || pusher.State != ConnectionState.Connected)
+            {
+                return;
+            }
+
+            subscribedChannels.Clear();
+            await pusher.UnsubscribeAllAsync();
+            await pusher.DisconnectAsync();
+        }
+
+        internal async Task DisconnectAsync(KickChannel channel)
+        {
+            if (subscribedChannels.Count == 0 || pusher.State != ConnectionState.Connected)
+            {
+                return;
+            }
+
+            var targetChannelName = "chatrooms." + channel.ChatRoom.Id;
+            var sub = subscribedChannels.FirstOrDefault(x => x.Name == targetChannelName);
+            if (sub == null)
+            {
+                return;
+            }
+
+            await pusher.UnsubscribeAsync(targetChannelName);
+            subscribedChannels.Remove(sub);
+
+            if (subscribedChannels.Count == 0)
+            {
+                await pusher.DisconnectAsync();
+            }
+        }
+
+
         internal async Task ConnectAsync(KickChannel channel)
         {
-            subscribedChannels.Add(await pusher.SubscribeAsync("chatrooms." + channel.ChatRoom.Id));
+            if (pusher.State == ConnectionState.Uninitialized || pusher.State == ConnectionState.Disconnected)
+            {
+                await pusher.ConnectAsync();
+            }
 
-            await pusher.ConnectAsync();
+            var targetChannelName = "chatrooms." + channel.ChatRoom.Id;
+            if (subscribedChannels.Any(x => x.Name == targetChannelName))
+            {
+                // we are already subscribed.
+                return;
+            }
+
+            subscribedChannels.Add(await pusher.SubscribeAsync(targetChannelName));
         }
 
         private readonly PusherChannel[] AvailableChannels = new PusherChannel[] {
