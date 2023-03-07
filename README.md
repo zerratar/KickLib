@@ -1,10 +1,11 @@
 # KickLib
 A .NET API Client for the streaming service kick.com to allow writing chatbots and interact with their services (in development)
 
+This library uses [PuppeteerSharp](https://www.puppeteersharp.com/) to work around cloudflare, this will download a local instance of chromium into the working directory of the application using KickLib. This will be used until a proper API has been exposed by [kick.com](https://kick.com/) that can be used by developers.
 
 ## How to use
 
-You can check tthe KickLib.Cli project as an example for how to use the library. Its still very experimental and the API may change at any time.
+You can check the KickLib.Cli project as an example for how to use the library. Its still very experimental and the API may change at any time.
 
 Currently Reading Channel details, Available Emotes and Chat Messages are available.
 
