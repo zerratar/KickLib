@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="PuppeteerSharp" Version="9.0.2" />
+    <PackageReference Include="PusherClient" Version="2.2.1" />
   </ItemGroup>
 
 </Project>
